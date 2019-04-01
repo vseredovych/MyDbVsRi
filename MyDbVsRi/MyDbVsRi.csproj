@@ -43,12 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EProduct.cs" />
     <Compile Include="Entities\EMerchant.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Operations\Operations.cs" />
     <Compile Include="Operations\OProducts.cs" />
     <Compile Include="Operations\OMerchants.cs" />
+    <Compile Include="TablesRepository\Repository.cs" />
     <Compile Include="temp\FileRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

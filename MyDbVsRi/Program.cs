@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Operations;
+using DAL.Entities;
 
 namespace MyDbVsRi
 {
     class Program
     {
 
-        public static readonly string[] TableNamesMerchants = { "Merchants", "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
-        public static readonly string[] TableNamesProducts = { "Products", "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
-
+        
         static void Main(string[] args)
         {
 
@@ -23,14 +22,20 @@ namespace MyDbVsRi
             fileHelper.CreateFile("Tables", "TableFolder");
 
             Operations operations = new Operations();
-            if (!operations.isTableExists(fileHelper.getFilePath(), TableNamesMerchants[0]))
+            if (!operations.IsTableExists(fileHelper.getFilePath(), Merchant.TableName))
             {
-                operations.createTable(fileHelper.getFilePath(), TableNamesMerchants);
+                operations.createTable(fileHelper.getFilePath(), Merchant.TableColumns, Merchant.TableName);
             }
-            if (!operations.isTableExists(fileHelper.getFilePath(), TableNamesProducts[0]))
+            if (!operations.IsTableExists(fileHelper.getFilePath(), Product.TableName))
             {
-                operations.createTable(fileHelper.getFilePath(), TableNamesProducts);
+                operations.createTable(fileHelper.getFilePath(), Product.TableColumns, Product.TableName);
             }
+
+            Merchant merchant = new Merchant(1, "a", "b", Convert.ToDateTime("2019-10-10"), "Lviv");
+            Product product = new Product(1, "asd", 12, "asd", 1, Convert.ToDateTime("2019-10-10"));
+                
+            operations.AddTableElement(fileHelper.getFilePath(), merchant, Merchant.TableName, Merchant.TableColumns);
+            operations.AddTableElement(fileHelper.getFilePath(), product, Product.TableName, Product.TableColumns);
 
             Console.Read();
         }
