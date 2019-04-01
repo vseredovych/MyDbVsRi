@@ -1,0 +1,14 @@
+DataTable: Merchants
+Id: 
+FirstName:
+LastName:
+Dob:
+CurrentSity:
+
+DataTable: Produvts
+Id: 
+Name:
+Price:
+Status:
+MerchantId:
+CreatedAt:
