@@ -23,8 +23,14 @@ namespace MyDbVsRi
             fileHelper.CreateFile("Tables", "TableFolder");
 
             Operations operations = new Operations();
-            operations.createTable(fileHelper.getFilePath(), TableNamesMerchants);
-            operations.createTable(fileHelper.getFilePath(), TableNamesProducts);
+            if (!operations.isTableExists(fileHelper.getFilePath(), TableNamesMerchants[0]))
+            {
+                operations.createTable(fileHelper.getFilePath(), TableNamesMerchants);
+            }
+            if (!operations.isTableExists(fileHelper.getFilePath(), TableNamesProducts[0]))
+            {
+                operations.createTable(fileHelper.getFilePath(), TableNamesProducts);
+            }
 
             Console.Read();
         }
