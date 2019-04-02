@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyDbVsRi.TablesRepository
 {
-    interface Repository
+    public interface Repository
     {
+        string[] GetStringArray();
     }
 }

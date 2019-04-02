@@ -38,7 +38,7 @@ namespace DAL.Entities
         }
         public override string ToString()
         {
-            return String.Format("{0}, {1}, {2}, {3}, {4}", Id, FirstName, LastName, Dob, CurrentSity);
+            return String.Format("{0},{1},{2},{3},{4}", Id, FirstName, LastName, Dob.ToString(), CurrentSity);
         }
     }
 }

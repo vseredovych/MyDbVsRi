@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
+using MyDbVsRi.TablesRepository;
 
 namespace MyDbVsRi
 {
@@ -26,15 +27,10 @@ namespace MyDbVsRi
                 while ((line = streamReader.ReadLine()) != null)
                 {
                     count += 1;
-                    if (line == "/START")
+                    if (line == "/START@" + table.TableName)
                     {
-                        line = streamReader.ReadLine();
-                        lineWords = line.Split(':');
                         count += 1;
-                        if (line != null && line == table.TableName)
-                        {
-                            return count;
-                        }
+                        return count;
                     }
                 }
                 return -1;
@@ -42,23 +38,56 @@ namespace MyDbVsRi
         }
         public int GetTableLength(Table table)
         {
-            //var test = File.ReadAllLines(FilePath).Skip(GetTableIndex(FilePath, tableName)).Take(1);//.Split(':')[1];
+            //var test = File.ReadAllLines(FilePath).Skip(GetTableIndex(FilePath, tableName)).Take(1);//.Split('@')[1];
             return table.GetColumnsLength();
         }
         public void CreateTable(Table table)
         {
             using (StreamWriter streamWriter = File.AppendText(FilePath))
             {
-                streamWriter.WriteLine("/START");
-                streamWriter.WriteLine(table.TableName);
-                //Table length
-                //streamWriter.WriteLine(";" + 0 + ";");
+                streamWriter.WriteLine("/START@" + table.TableName);
 
                 for (int i = 0; i < table.TableColumns.Count; i++)
                 {
-                    streamWriter.WriteLine(table.TableColumns[i] + ":");
+                    streamWriter.WriteLine(table.TableColumns[i] + "@");
                 }
-                streamWriter.WriteLine("END/");
+                streamWriter.WriteLine("END@" + table.TableName + "/");
+            }
+        }
+        public void UpdateTable(Table table, Repository repository)
+        {
+
+
+            List<string> datatable = GetDbList(table);
+            List<string> newItems = repository.GetStringArray().ToList();
+
+            DeleteTable(table);
+
+            using (StreamWriter streamWriter = File.AppendText(FilePath))
+            {
+                streamWriter.WriteLine("/START@" + table.TableName);
+
+                for (int i = 0; i < table.TableColumns.Count; i++)
+                {
+                    streamWriter.Write(table.TableColumns[i] + "@");
+                    for (int j = 0; j < newItems.Count; j++)
+                    {
+                        streamWriter.Write(newItems[j].Split(',')[i] + ",");
+                    }
+                    streamWriter.WriteLine();
+                }
+                streamWriter.WriteLine("END@" + table.TableName + "/");
+            }
+        }
+
+        private void CreateTable(List<string> database)
+        {
+            using (StreamWriter streamWriter = new StreamWriter(FilePath))
+            {
+                foreach (string line in database)
+                {
+                    streamWriter.WriteLine(line);
+                }
             }
         }
         public bool IsTableExists(Table table)
@@ -69,12 +98,13 @@ namespace MyDbVsRi
             }
             return false;
         }
-        public void AddTableElement(Table table)
+        public void InsertTableElement(Table table)
         {
             using (StreamReader streamReader = File.OpenText(FilePath))
             {
                 string line = "";
                 List<string> lines = new List<string>();
+                //GetDbDataReader();
                 //string[] tableLines = new string[2];
                 ////Object[] objects = entity.GetOblectArray();
 
@@ -87,33 +117,48 @@ namespace MyDbVsRi
 
             }
         }
+        public void DeleteTable(Table table)
+        {
+            List<string> beforeDatabase = new List<string>();
+            List<string> afterDatabase = new List<string>();
+
+            if (IsTableExists(table))
+            {
+                GetTableIndex(table);
+                beforeDatabase = File.ReadLines(FilePath).TakeWhile(x => x != "/START@" + table.TableName).ToList();
+                afterDatabase = File.ReadLines(FilePath).SkipWhile(x => x != "END@" + table.TableName + "/").Skip(1).ToList();
+
+                beforeDatabase.AddRange(afterDatabase);
+                CreateTable(beforeDatabase);
+            }
+        }
+        //public void update(Table table)
+        //{
+        //    List<string> datatable = GetDbList(table);
+        //    DeleteTable(table);
+            
+            
+        //    if (!IsTableExists(table))
+        //    {
+        //        CreateTable(table);
+        //    }
+        //}
         public DbDataReader GetDbDataReader(Table table)
         {
             using (StreamReader streamReader = File.OpenText(FilePath))
             {
-                List<string> allTable = new List<string>();
-                //string[] tableLines = new string[2];
-                
-                if (IsTableExists(table))
-                {
-                    Console.WriteLine(GetTableIndex(table));
-                    allTable = File.ReadLines(FilePath).Skip(GetTableIndex(table)).Take(table.GetColumnsLength()).ToList();
-                }
-                return GetDbDataReader(allTable);
-                //foreach (object ob in entity.GetTableColumns())
-                //{
-                //    string[] data = GetValuesFromListByKey(allTableValues.ToArray(), ob.ToString());
-                //    //foreach(string el in date)
-                //    //{
-                        
-                //    //}
-                //}
-
-                //foreach (string el in entity.GetTableColumns())
-                //{
-
-                //}
+                return GetDbDataReader(GetDbList(table));
             }
+        }
+        private List<string> GetDbList(Table table)
+        {
+            List<string> allTable = new List<string>();
+
+            if (IsTableExists(table))
+            {
+                allTable = File.ReadLines(FilePath).Skip(GetTableIndex(table) - 1).Take(table.GetColumnsLength()).ToList();
+            }
+            return allTable;
         }
         private DbDataReader GetDbDataReader(List<string> allTable)
         {
@@ -123,24 +168,13 @@ namespace MyDbVsRi
             string[] tempArray;
             foreach (string line in allTable)
             {
-                tempArray = line.Split(':');
+                tempArray = line.Split('@');
                 tableName = tempArray[0];
                 tableColumns = tempArray[1].Split(',');
                 reader.Dictionary[tableName] = tableColumns.ToList(); 
             }
 
             return reader;
-        }
-        private string[] GetValuesFromListByKey(string[] list, string key)
-        {
-            foreach (string el in list)
-            {
-                if (el.Split(':')[0] == key)
-                {
-                    return el.Split(':')[1].Split(',');
-                }
-            }
-            return null;
         }
     }
 }

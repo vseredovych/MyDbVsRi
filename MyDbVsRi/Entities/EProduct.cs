@@ -39,7 +39,7 @@ namespace DAL.Entities
         }
         public override string ToString()
         {
-            return String.Format("{0}, {1}, {2}, {3}, {4}, {5}", Id, Name, Price, Status, MerchantId, CreatedAt);
+            return String.Format("{0},{1},{2},{3},{4},{5}", Id, Name, Price, Status, MerchantId, Convert.ToDateTime(CreatedAt));
         }
     }
 }

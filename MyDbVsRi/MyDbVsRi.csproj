@@ -49,8 +49,6 @@
     <Compile Include="Entities\EMerchant.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Database\Database.cs" />
-    <Compile Include="Operations\OProducts.cs" />
-    <Compile Include="Operations\OMerchants.cs" />
     <Compile Include="TablesRepository\Repository.cs" />
     <Compile Include="temp\FileRepository.cs" />
     <Compile Include="Program.cs" />
@@ -62,10 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Tables - Копировать.txt" />
-    <Content Include="Tables.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
