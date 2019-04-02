@@ -4,21 +4,18 @@ using System.IO;
 
 namespace DAL.Entities
 {
-    public class Merchant : Entity
+    public class Merchant
     {
-        public static readonly int TableLenght = 5;
-        public static readonly string TableName = "Merchants";
-        public static readonly string[] TableColumns = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
-       
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Dob { get; set; }
         public string CurrentSity { get; set; }
+
         public Merchant()
         {
-
         }
+
         public Merchant(int Id, string FirstName, string LastName, DateTime Dob, string CurrentSity)
         {
             this.Id = Id;
@@ -39,38 +36,9 @@ namespace DAL.Entities
             return objects.ToArray();
 
         }
-        public string GetTableName()
+        public override string ToString()
         {
-            return TableName;
-        }
-        public string[] GetTableColumns()
-        {
-            return TableColumns;
-        }
-        int GetLength()
-        {
-            return TableLenght;
-        }
-        public void SetByName(string key, object value)
-        {
-            switch (key)
-            {
-                case "Id":
-                    this.Id = Convert.ToInt32(value);
-                    break;
-                case "FirstName":
-                    this.FirstName = Convert.ToString(value);
-                    break;
-                case "LastName":
-                    this.LastName = Convert.ToString(value);
-                    break;
-                case "Status":
-                    this.Dob = Convert.ToDateTime(value);
-                    break;
-                case "CurrentSity":
-                    this.CurrentSity = Convert.ToString(value);
-                    break;
-            }
+            return String.Format("{0}, {1}, {2}, {3}, {4}", Id, FirstName, LastName, Dob, CurrentSity);
         }
     }
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\DbDataReader.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EProduct.cs" />
     <Compile Include="Entities\EMerchant.cs" />

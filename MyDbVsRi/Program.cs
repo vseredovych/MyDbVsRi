@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Operations;
 using DAL.Entities;
+using MyDbVsRi.TablesRepository;
 
 namespace MyDbVsRi
 {
@@ -22,11 +23,14 @@ namespace MyDbVsRi
             fileHelper.CreateFile("Tables", "TableFolder");
 
             string[] tableColumnsM = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
-            string[] tableColumnsP = { "Products", "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
+            string[] tableColumnsP = { "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
 
             Table merchants = new Table("Merchants", tableColumnsM);
             Table product = new Table("Products", tableColumnsP);
 
+            MerchantsRepository repoMerchants = new MerchantsRepository();
+            ProductsRepository repoProducts = new ProductsRepository();
+   
 
             Database dataBase = new Database(fileHelper.getFilePath());
             if (!dataBase.IsTableExists(merchants))
@@ -38,11 +42,21 @@ namespace MyDbVsRi
                 dataBase.CreateTable(product);
             }
 
+            DbDataReader readerMerchants = dataBase.GetDbDataReader(merchants);
+            repoMerchants.FillRepositoryByDataReader(readerMerchants);
+            DbDataReader readerProducts = dataBase.GetDbDataReader(product);
+            repoProducts.FillRepositoryByDataReader(readerProducts);
+
+            Console.WriteLine("Merchants");
+            repoMerchants.WriteMerchnts();
+            Console.WriteLine("Product");
+            repoProducts.WriteProducts();
             //Merchant merchant = new Merchant(1, "a", "b", Convert.ToDateTime("2019-10-10"), "Lviv");
             //Product product = new Product(1, "asd", 12, "asd", 1, Convert.ToDateTime("2019-10-10"));
 
             //dataBase.GetListOfObjectsInTable(fileHelper.getFilePath(), merchant, Merchant.TableName, Merchant.TableColumns);
             //dataBase.GetListOfObjectsInTable(fileHelper.getFilePath(), product, Product.TableName, Product.TableColumns);
+            
 
             Console.Read();
         }

@@ -4,13 +4,8 @@ using System.IO;
 
 namespace DAL.Entities
 {
-    public class Product : Entity
+    public class Product
     {
-        public static readonly int TableLenght = 6;
-        public static readonly string TableName = "Products";
-        public static readonly string[] TableColumns = { "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
-
-
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
@@ -42,42 +37,9 @@ namespace DAL.Entities
 
             return objects.ToArray();
         }
-
-        public string GetTableName()
+        public override string ToString()
         {
-            return TableName;
-        }
-        public string[] GetTableColumns()
-        {
-            return TableColumns;
-        }
-        int GetLength()
-        {
-            return TableLenght;
-        }
-        public void SetByName(string key, object value)
-        {
-            switch (key)
-            {
-                case "Id":
-                    this.Id = Convert.ToInt32(value);
-                    break;
-                case "Name":
-                    this.Name = Convert.ToString(value);
-                    break;
-                case "Price":
-                    this.Price = Convert.ToInt32(value);
-                    break;
-                case "Status":
-                    this.Status = Convert.ToString(value);
-                    break;
-                case "MerchantId":
-                    this.MerchantId = Convert.ToInt32(value);
-                    break;
-                case "CreatedAt":
-                    this.CreatedAt = Convert.ToDateTime(value);
-                    break;
-            }
+            return String.Format("{0}, {1}, {2}, {3}, {4}, {5}", Id, Name, Price, Status, MerchantId, CreatedAt);
         }
     }
 }

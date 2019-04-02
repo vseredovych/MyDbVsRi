@@ -31,7 +31,7 @@ namespace MyDbVsRi
                         line = streamReader.ReadLine();
                         lineWords = line.Split(':');
                         count += 1;
-                        if (lineWords != null && lineWords.Length > 1 && lineWords[1] == table.TableName)
+                        if (line != null && line == table.TableName)
                         {
                             return count;
                         }
@@ -50,9 +50,9 @@ namespace MyDbVsRi
             using (StreamWriter streamWriter = File.AppendText(FilePath))
             {
                 streamWriter.WriteLine("/START");
-                streamWriter.Write(table.TableName);
+                streamWriter.WriteLine(table.TableName);
                 //Table length
-                streamWriter.WriteLine(";" + 0 + ";");
+                //streamWriter.WriteLine(";" + 0 + ";");
 
                 for (int i = 0; i < table.TableColumns.Count; i++)
                 {
@@ -87,24 +87,19 @@ namespace MyDbVsRi
 
             }
         }
-        public void GetListOfObjectsInTable(Table table)
+        public DbDataReader GetDbDataReader(Table table)
         {
             using (StreamReader streamReader = File.OpenText(FilePath))
             {
-                Dictionary<int, string> countries = new Dictionary<int, string>(5);
-
-                string line = "";
-
-                List<Entity> entities = new List<Entity>();
-                List<string> allTableValues = new List<string>();
+                List<string> allTable = new List<string>();
                 //string[] tableLines = new string[2];
                 
                 if (IsTableExists(table))
                 {
                     Console.WriteLine(GetTableIndex(table));
-                    allTableValues = File.ReadLines(FilePath).Skip(GetTableIndex(table) - 1).Take(table.GetColumnsLength() + 1).ToList();
+                    allTable = File.ReadLines(FilePath).Skip(GetTableIndex(table)).Take(table.GetColumnsLength()).ToList();
                 }
-
+                return GetDbDataReader(allTable);
                 //foreach (object ob in entity.GetTableColumns())
                 //{
                 //    string[] data = GetValuesFromListByKey(allTableValues.ToArray(), ob.ToString());
@@ -119,6 +114,22 @@ namespace MyDbVsRi
 
                 //}
             }
+        }
+        private DbDataReader GetDbDataReader(List<string> allTable)
+        {
+            DbDataReader reader = new DbDataReader();
+            string tableName;
+            string[] tableColumns;
+            string[] tempArray;
+            foreach (string line in allTable)
+            {
+                tempArray = line.Split(':');
+                tableName = tempArray[0];
+                tableColumns = tempArray[1].Split(',');
+                reader.Dictionary[tableName] = tableColumns.ToList(); 
+            }
+
+            return reader;
         }
         private string[] GetValuesFromListByKey(string[] list, string key)
         {
