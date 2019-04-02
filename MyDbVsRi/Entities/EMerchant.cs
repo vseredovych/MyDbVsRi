@@ -6,6 +6,7 @@ namespace DAL.Entities
 {
     public class Merchant : Entity
     {
+        public static readonly int TableLenght = 5;
         public static readonly string TableName = "Merchants";
         public static readonly string[] TableColumns = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
        
@@ -46,5 +47,31 @@ namespace DAL.Entities
         {
             return TableColumns;
         }
+        int GetLength()
+        {
+            return TableLenght;
+        }
+        public void SetByName(string key, object value)
+        {
+            switch (key)
+            {
+                case "Id":
+                    this.Id = Convert.ToInt32(value);
+                    break;
+                case "FirstName":
+                    this.FirstName = Convert.ToString(value);
+                    break;
+                case "LastName":
+                    this.LastName = Convert.ToString(value);
+                    break;
+                case "Status":
+                    this.Dob = Convert.ToDateTime(value);
+                    break;
+                case "CurrentSity":
+                    this.CurrentSity = Convert.ToString(value);
+                    break;
+            }
+        }
     }
 }
+

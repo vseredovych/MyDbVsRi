@@ -11,5 +11,7 @@ namespace DAL.Entities
         Object[] GetObjectArray();
         string GetTableName();
         string[] GetTableColumns();
+        //int GetLength();
+        void SetByName(string key, object value);
     }
 }

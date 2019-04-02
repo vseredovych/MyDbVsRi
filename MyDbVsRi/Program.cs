@@ -13,7 +13,7 @@ namespace MyDbVsRi
     class Program
     {
 
-        
+
         static void Main(string[] args)
         {
 
@@ -21,21 +21,28 @@ namespace MyDbVsRi
             FileHelper fileHelper = new FileHelper();
             fileHelper.CreateFile("Tables", "TableFolder");
 
-            Operations operations = new Operations();
-            if (!operations.IsTableExists(fileHelper.getFilePath(), Merchant.TableName))
+            string[] tableColumnsM = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
+            string[] tableColumnsP = { "Products", "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
+
+            Table merchants = new Table("Merchants", tableColumnsM);
+            Table product = new Table("Products", tableColumnsP);
+
+
+            Database dataBase = new Database(fileHelper.getFilePath());
+            if (!dataBase.IsTableExists(merchants))
             {
-                operations.createTable(fileHelper.getFilePath(), Merchant.TableColumns, Merchant.TableName);
+                dataBase.CreateTable(merchants);
             }
-            if (!operations.IsTableExists(fileHelper.getFilePath(), Product.TableName))
+            if (!dataBase.IsTableExists(product))
             {
-                operations.createTable(fileHelper.getFilePath(), Product.TableColumns, Product.TableName);
+                dataBase.CreateTable(product);
             }
 
-            Merchant merchant = new Merchant(1, "a", "b", Convert.ToDateTime("2019-10-10"), "Lviv");
-            Product product = new Product(1, "asd", 12, "asd", 1, Convert.ToDateTime("2019-10-10"));
-                
-            operations.AddTableElement(fileHelper.getFilePath(), merchant, Merchant.TableName, Merchant.TableColumns);
-            operations.AddTableElement(fileHelper.getFilePath(), product, Product.TableName, Product.TableColumns);
+            //Merchant merchant = new Merchant(1, "a", "b", Convert.ToDateTime("2019-10-10"), "Lviv");
+            //Product product = new Product(1, "asd", 12, "asd", 1, Convert.ToDateTime("2019-10-10"));
+
+            //dataBase.GetListOfObjectsInTable(fileHelper.getFilePath(), merchant, Merchant.TableName, Merchant.TableColumns);
+            //dataBase.GetListOfObjectsInTable(fileHelper.getFilePath(), product, Product.TableName, Product.TableColumns);
 
             Console.Read();
         }
