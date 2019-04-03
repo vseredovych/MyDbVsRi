@@ -10,15 +10,15 @@ namespace MyDbVsRi.TablesRepository
 
     class ProductsRepository : Repository
     {
-        List<Product> Products;
+        List<Entity> Products;
 
         public ProductsRepository()
         {
-            Products = new List<Product>();
+            Products = new List<Entity>();
         }
-        public void AddToRepository(Product product)
+        public void AddToRepository(Entity entity)
         {
-            Products.Add(product);
+            Products.Add(entity);
         }
         public void FillRepositoryByDataReader(DbDataReader reader)
         {
@@ -54,7 +54,7 @@ namespace MyDbVsRi.TablesRepository
             }
             return list.ToArray();
         }
-        public void WriteProducts()
+        public void WriteEntities()
         {
             foreach (Product merchant in Products)
             {

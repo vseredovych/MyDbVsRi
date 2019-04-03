@@ -98,25 +98,6 @@ namespace MyDbVsRi
             }
             return false;
         }
-        public void InsertTableElement(Table table)
-        {
-            using (StreamReader streamReader = File.OpenText(FilePath))
-            {
-                string line = "";
-                List<string> lines = new List<string>();
-                //GetDbDataReader();
-                //string[] tableLines = new string[2];
-                ////Object[] objects = entity.GetOblectArray();
-
-                //if (IsTableExists(FilePath, tableName))
-                //{
-                //    Console.WriteLine(GetTableIndex(FilePath, tableName));
-                //    lines = File.ReadLines(FilePath).Skip(GetTableIndex(FilePath, tableName) - 1).Take(objects.Length + 1).ToList();
-                //}
-
-
-            }
-        }
         public void DeleteTable(Table table)
         {
             List<string> beforeDatabase = new List<string>();
@@ -132,17 +113,7 @@ namespace MyDbVsRi
                 CreateTable(beforeDatabase);
             }
         }
-        //public void update(Table table)
-        //{
-        //    List<string> datatable = GetDbList(table);
-        //    DeleteTable(table);
-            
-            
-        //    if (!IsTableExists(table))
-        //    {
-        //        CreateTable(table);
-        //    }
-        //}
+
         public DbDataReader GetDbDataReader(Table table)
         {
             using (StreamReader streamReader = File.OpenText(FilePath))

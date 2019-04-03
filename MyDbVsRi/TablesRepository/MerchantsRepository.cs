@@ -9,15 +9,15 @@ namespace MyDbVsRi.TablesRepository
 {
     class MerchantsRepository : Repository
     {
-        List<Merchant> Merchants;
+        List<Entity> Merchants;
 
         public MerchantsRepository()
         {
-            Merchants = new List<Merchant>();
+            Merchants = new List<Entity>();
         }
-        public void AddToRepository(Merchant merchant)
+        public void AddToRepository(Entity entity)
         {
-            Merchants.Add(merchant);
+            Merchants.Add(entity);
         }
         public void FillRepositoryByDataReader(DbDataReader reader)
         {
@@ -50,7 +50,7 @@ namespace MyDbVsRi.TablesRepository
             }
             return list.ToArray();
         } 
-        public void WriteMerchants()
+        public void WriteEntities()
         {
             foreach (Merchant merchant in Merchants)
             {

@@ -31,33 +31,32 @@ namespace MyDbVsRi
 
             MerchantsRepository repoMerchants = new MerchantsRepository();
             ProductsRepository repoProducts = new ProductsRepository();
-   
+
+            
+            DbTablesRepository repo = new DbTablesRepository(fileHelper);
+            repo.AddTable("Merchants", tableColumnsM, repoMerchants);
+            repo.AddTable("Products", tableColumnsP, repoProducts);
+            repo.Repositories["Products"].AddToRepository(newProduct);
+            repo.Repositories["Products"].WriteEntities();
+            //repo.
+            //
+            //Database dataBase = new Database(fileHelper.getFilePath());
 
 
-            Database dataBase = new Database(fileHelper.getFilePath());
-            if (!dataBase.IsTableExists(merchant))
-            {
-                dataBase.CreateTable(merchant);
-            }
-            if (!dataBase.IsTableExists(product))
-            {
-                dataBase.CreateTable(product);
-            }
+            //repoMerchants.AddToRepository(newMerchant);
+            //repoProducts.AddToRepository(newProduct);
+            //dataBase.UpdateTable(merchant, repoMerchants);
+            //dataBase.UpdateTable(product, repoProducts);
 
-            repoMerchants.AddToRepository(newMerchant);
-            repoProducts.AddToRepository(newProduct);
-            dataBase.UpdateTable(merchant, repoMerchants);
-            dataBase.UpdateTable(product, repoProducts);
+            //DbDataReader readerMerchants = dataBase.GetDbDataReader(merchant);
+            //repoMerchants.FillRepositoryByDataReader(readerMerchants);
+            //DbDataReader readerProducts = dataBase.GetDbDataReader(product);
+            //repoProducts.FillRepositoryByDataReader(readerProducts);
 
-            DbDataReader readerMerchants = dataBase.GetDbDataReader(merchant);
-            repoMerchants.FillRepositoryByDataReader(readerMerchants);
-            DbDataReader readerProducts = dataBase.GetDbDataReader(product);
-            repoProducts.FillRepositoryByDataReader(readerProducts);
-
-            Console.WriteLine("Merchants");
-            repoMerchants.WriteMerchants();
-            Console.WriteLine("Product");
-            repoProducts.WriteProducts();
+            //Console.WriteLine("Merchants");
+            //repoMerchants.WriteEntities();
+            //Console.WriteLine("Product");
+            //repoProducts.WriteEntities();
             //dataBase.DeleteTable(merchant);
 
             //dataBase.DeleteTable(product);

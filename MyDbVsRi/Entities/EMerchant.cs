@@ -4,7 +4,7 @@ using System.IO;
 
 namespace DAL.Entities
 {
-    public class Merchant
+    public class Merchant : Entity
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

@@ -54,7 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database\Table.cs" />
-    <Compile Include="temp\TablesRepository.cs" />
+    <Compile Include="TablesRepository\DbTablesRepository.cs" />
     <Compile Include="TablesRepository\MerchantsRepository.cs" />
     <Compile Include="TablesRepository\ProductsRepository.cs" />
   </ItemGroup>

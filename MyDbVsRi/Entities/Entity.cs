@@ -9,9 +9,9 @@ namespace DAL.Entities
     public interface Entity
     {
         Object[] GetObjectArray();
-        string GetTableName();
-        string[] GetTableColumns();
+        //string GetTableName();
+        //string[] GetTableColumns();
         //int GetLength();
-        void SetByName(string key, object value);
+       string ToString();
     }
 }
