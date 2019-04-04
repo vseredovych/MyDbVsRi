@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyDbVsRi.TablesRepository
+namespace MyDbVsRi
 {
     class TablesRepository
     {
-        List<Table> Tables;
+        public List<Table> Tables { get; set; }
 
         public TablesRepository()
         {
@@ -17,6 +17,10 @@ namespace MyDbVsRi.TablesRepository
         public void AddToRepository(Table table)
         {
             Tables.Add(table);
+        }
+        public int GetLength()
+        {
+            return Tables.Count;
         }
     }
 }

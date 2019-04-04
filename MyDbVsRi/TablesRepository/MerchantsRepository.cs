@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 
-namespace MyDbVsRi.TablesRepository
+namespace MyDbVsRi
 {
     class MerchantsRepository : Repository
     {

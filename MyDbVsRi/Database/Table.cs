@@ -17,7 +17,9 @@ namespace MyDbVsRi
 
         public Table()
         {
-            TableColumns = new List<string>(); 
+            TableColumns = new List<string>();
+            TableDictionary = new Dictionary<string, List<string>>();
+
         }
         public Table(string tableName, string[] tableColumns)
         {
@@ -29,14 +31,29 @@ namespace MyDbVsRi
                 TableDictionary[str] = new List<string>();
             }
         }
-        public void AddTableValue(Entity entity)
+        public int AddTableValue(Entity entity)
         {
             string[] values = entity.ToString().Split(',');
-            for (int i = 0; i < values.Length;i++)
+
+            if (TableDictionary.Count == 0)
             {
-                TableDictionary[TableColumns[i]].Add(values[i]);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    TableDictionary[TableColumns[i]] = new List<string>();
+                }
+                TableValuesCount += 1;
+                return 1;
             }
-            TableValuesCount += 1;
+            else
+            {
+                values = entity.ToString().Split(',');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    TableDictionary[TableColumns[i]].Add(values[i]);
+                }
+                TableValuesCount += 1;
+                return 1;
+            }
         }
         public void WriteTable()
         {
@@ -45,7 +62,11 @@ namespace MyDbVsRi
             {
                 for (int j = 0; j < TableValuesCount; j++)
                 {
-                    Console.Write(TableDictionary[TableColumns[i]][j] + ",");
+                    Console.Write(TableDictionary[TableColumns[i]][j]);
+                    if (j != TableValuesCount - 1)
+                    {
+                        Console.Write("\t|\t");
+                    }
                 }
             }
         }

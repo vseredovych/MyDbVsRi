@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
-using MyDbVsRi.TablesRepository;
 
 namespace MyDbVsRi
 {
@@ -17,33 +16,10 @@ namespace MyDbVsRi
         static void Main(string[] args)
         {
 
-            //Menu menu = new Menu();
-            //menu.MainMenu();
+            Menu menu = new Menu();
+            menu.MainMenu();
             Console.WriteLine("Hello World!");
-            FileHelper fileHelper = new FileHelper();
-            fileHelper.CreateFile("Tables", "TableFolder");
-            Database dataBase = new Database(fileHelper.getFilePath());
 
-
-            string[] tableColumnsM = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
-            string[] tableColumnsP = { "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
-
-            Table merchant = new Table("Merchants", tableColumnsM);
-            Table product = new Table("Products", tableColumnsP);
-
-            Merchant newMerchant = new Merchant(1, "asd", "asd", Convert.ToDateTime("2019-10-10"), "asdasd");
-            Product newProduct = new Product(1, "asd", 123, "as", 1, Convert.ToDateTime("2019-10-10"));
-
-            dataBase.CreateEmptyTable(merchant);
-            dataBase.CreateEmptyTable(product);
-
-            merchant.AddTableValue(newMerchant);
-            product.AddTableValue(newProduct);
-
-            merchant.FillWithDatabase(merchant, dataBase);
-
-            merchant.WriteTable();
-            product.WriteTable();
             //MerchantsRepository repoMerchants = new MerchantsRepository();
             //ProductsRepository repoProducts = new ProductsRepository();
 
