@@ -20,30 +20,21 @@ namespace MyDbVsRi.TablesRepository
         {
             Products.Add(entity);
         }
-        public void FillRepositoryByDataReader(DbDataReader reader)
+        public void FillRepositoryByDataReader(Table table)
         {
             Products.Clear();
-            if (!(reader.Dictionary == null || reader.Dictionary.Count == 0) && !(reader.Dictionary["Id"][0] == ""))
+            for (int i = 0; i < table.TableDictionary["Id"].Count; i++)
             {
-                try
-                {
-                    for (int i = 0; i < reader.Dictionary["Id"].Count; i++)
-                    {
-                        Product product = new Product();
-                        product.Id = Convert.ToInt32(reader.Dictionary["Id"][i]);
-                        product.Name = Convert.ToString(reader.Dictionary["Name"][i]);
-                        product.Price = Convert.ToDouble(reader.Dictionary["Price"][i]);
-                        product.Status = Convert.ToString(reader.Dictionary["Status"][i]);
-                        product.MerchantId = Convert.ToInt32(reader.Dictionary["MerchantId"][i]);
-                        product.CreatedAt = Convert.ToDateTime(reader.Dictionary["CreatedAt"][i]);
-                        Products.Add(product);
-                    }
-                }
-                catch
-                {
-
-                }
+                Product product = new Product();
+                product.Id = Convert.ToInt32(table.TableDictionary["Id"][i]);
+                product.Name = Convert.ToString(table.TableDictionary["Name"][i]);
+                product.Price = Convert.ToDouble(table.TableDictionary["Price"][i]);
+                product.Status = Convert.ToString(table.TableDictionary["Status"][i]);
+                product.MerchantId = Convert.ToInt32(table.TableDictionary["MerchantId"][i]);
+                product.CreatedAt = Convert.ToDateTime(table.TableDictionary["CreatedAt"][i]);
+                Products.Add(product);
             }
+
         }
         public string[] GetStringArray()
         {

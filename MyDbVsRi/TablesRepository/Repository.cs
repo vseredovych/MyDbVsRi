@@ -11,7 +11,7 @@ namespace MyDbVsRi.TablesRepository
     {
         string[] GetStringArray();
         void AddToRepository(Entity entity);
-        void FillRepositoryByDataReader(DbDataReader reader);
+        void FillRepositoryByDataReader(Table table);
         void WriteEntities();
     }
 }
