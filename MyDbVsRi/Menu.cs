@@ -16,18 +16,14 @@ namespace MyDbVsRi
         FileHelper fileHelper;
         Database dataBase;
         TablesRepository tableRepository;
-
-        int currentTable;
         public Menu()
         {
             fileHelper = new FileHelper();
             fileHelper.CreateFile("Tables", "TableFolder");
             dataBase = new Database(fileHelper.getFilePath());
             tableRepository = new TablesRepository();
-            //string[] tableColumnsM = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
-            //string[] tableColumnsP = { "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
-
-            Table merchant = dataBase.GetTableFromDatabase("Merchants"); ;// new Table("Merchants", tableColumnsM);
+          
+            Table merchant = dataBase.GetTableFromDatabase("Merchants");
             Table product = dataBase.GetTableFromDatabase("Products");
 
             tableRepository.AddToRepository(merchant);

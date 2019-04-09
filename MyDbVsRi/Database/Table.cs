@@ -10,8 +10,8 @@ namespace MyDbVsRi
 {
     public class Table
     {
-        public string TableName { get; set; }                   // = "Merchants";
-        public List<string> TableColumns { get; set; }          //=  new List<string>{ "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
+        public string TableName { get; set; }
+        public List<string> TableColumns { get; set; }
         public Dictionary<string, List<string>> TableDictionary { get; set; }
         public int TableValuesCount;
 

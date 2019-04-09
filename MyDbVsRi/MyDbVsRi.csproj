@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\DbDataReader.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Merchant.cs" />
@@ -56,9 +55,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database\Table.cs" />
-    <Compile Include="TablesRepository\DatabaseRepository.cs" />
-    <Compile Include="TablesRepository\MerchantsRepository.cs" />
-    <Compile Include="TablesRepository\ProductsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

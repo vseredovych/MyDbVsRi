@@ -11,8 +11,6 @@ namespace MyDbVsRi
 {
     class Program
     {
-
-
         static void Main(string[] args)
         {
 
