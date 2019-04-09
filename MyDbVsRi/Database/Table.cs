@@ -31,7 +31,7 @@ namespace MyDbVsRi
                 TableDictionary[str] = new List<string>();
             }
         }
-        public int AddTableValue(Entity entity)
+        public int AddToRepository(Entity entity)
         {
             string[] values = entity.ToString().Split(',');
 
@@ -55,6 +55,28 @@ namespace MyDbVsRi
                 return 1;
             }
         }
+        public int AddToRepository(List<string> insertList)
+        {
+            if (insertList.Count < this.TableColumns.Count)
+            {
+                return -1;
+            }
+
+            for (int i = 0; i < insertList.Count; i++)
+            {
+                this.TableDictionary[TableColumns[i]].Add(insertList[i]);
+            }
+            TableValuesCount += 1;
+            return 1;
+        } 
+        public void RemoveFromTable(int index)
+        {
+            for (int i = 0; i < TableColumns.Count; i++)
+            {
+                TableDictionary[TableColumns[i]].RemoveAt(index);
+            }
+            TableValuesCount -= 1;
+        }
         public void WriteTable()
         {
             Console.WriteLine(TableName + ":");
@@ -70,6 +92,7 @@ namespace MyDbVsRi
                 }
             }
         }
+        
         public void FillWithDatabase(Table table, Database dataBase)
         {
             table = dataBase.GetTableFromDatabase(table.TableName);

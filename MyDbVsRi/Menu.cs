@@ -11,19 +11,21 @@ namespace MyDbVsRi
     {
         string[] tables = { "Merchants", "Products" };
         string[] mainMenuStrings = { "show Tables" };
-        string[] operations = { "Print", "AddItem", "DeleteItem" };
+        string[] operations = { "AddItem", "DeleteItem", "CloneItem", "Save" };
 
         FileHelper fileHelper;
         Database dataBase;
         TablesRepository tableRepository;
+
+        int currentTable;
         public Menu()
         {
             fileHelper = new FileHelper();
             fileHelper.CreateFile("Tables", "TableFolder");
             dataBase = new Database(fileHelper.getFilePath());
             tableRepository = new TablesRepository();
-            string[] tableColumnsM = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
-            string[] tableColumnsP = { "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
+            //string[] tableColumnsM = { "Id", "FirstName", "LastName", "Dob", "CurrentSity" };
+            //string[] tableColumnsP = { "Id", "Name", "Price", "Status", "MerchantId", "CreatedAt" };
 
             Table merchant = dataBase.GetTableFromDatabase("Merchants"); ;// new Table("Merchants", tableColumnsM);
             Table product = dataBase.GetTableFromDatabase("Products");
@@ -38,9 +40,6 @@ namespace MyDbVsRi
         }
         public void MainMenu()
         {
-            Merchant newMerchant = new Merchant(1, "asd", "asd", Convert.ToDateTime("2019-10-10"), "asdasd");
-            Product newProduct = new Product(1, "asd", 123, "as", 1, Convert.ToDateTime("2019-10-10"));
-
             ConsoleKey action;
             int chooseKey = 1;
 
@@ -63,7 +62,6 @@ namespace MyDbVsRi
                         TableOperationsMenu(tableRepository.Tables[chooseKey]);
                         break;
                     case ConsoleKey.D2:
-
                         break;
                     case ConsoleKey.Escape:
                         break;
@@ -79,9 +77,8 @@ namespace MyDbVsRi
             do
             {
                 Console.Clear();
-
-                PrintTable(table, chooseKey);
-
+                PrintTable(table, ref chooseKey);
+                PrintOperations();
                 action = Console.ReadKey(true).Key;
 
                 switch (action)
@@ -93,56 +90,80 @@ namespace MyDbVsRi
                         chooseKey += 1;
                         break;
                     case ConsoleKey.D1:
+                        AddItem(table);
                         break;
                     case ConsoleKey.D2:
+                        RemoveItem(table, chooseKey);
                         break;
                     case ConsoleKey.D3:
                         break;
+                    case ConsoleKey.D4:
+                        SaveTable(table);
+                        break;
+
                     case ConsoleKey.Escape:
                         break;
                 }
-
             } while (action != ConsoleKey.Escape);
         }
 
         void printMainMenu(ref int chooseKey)
         {
             Console.WriteLine("Tables");
-            HandleIndex(ref chooseKey, 0, tableRepository.GetLength());
+            HandleIndex(ref chooseKey, 0, tableRepository.GetLength() - 1);
             for (int i = 0; i < tableRepository.GetLength(); i++)
             {
                 if (i == chooseKey)
                 {
-                    Console.Write("\t-->");
+                    Console.Write("-->");
                 }
-                Console.WriteLine(tableRepository.Tables[i].TableName);
+                Console.WriteLine("\t" + tableRepository.Tables[i].TableName);
             }
             Console.WriteLine("Enter - choose table");
         }
-        void PrintTable(Table table, int chooseKey)
+        void PrintTable(Table table, ref int chooseKey)
         {
-            Console.WriteLine(table.TableName + ":");
-            HandleIndex(ref chooseKey, 0, table.TableColumns.Count);
+            Console.WriteLine(table.TableName);
+            HandleIndex(ref chooseKey, 0, table.TableValuesCount - 1);
 
             for (int i = 0; i < table.TableValuesCount; i++)
             {
-
-
                 if (i == chooseKey)
                 {
-                    Console.Write("->\t");
+                    Console.Write("-->");
                 }
                 for (int j = 0; j < table.GetColumnsLength(); j++)
                 {
-                    
-                    Console.Write(table.TableDictionary[ table.TableColumns[j] ][i]);
-                    if (j != table.TableValuesCount - 1)
+                    Console.Write("\t" + table.TableDictionary[ table.TableColumns[j] ][i]);
+                    if (j != table.GetColumnsLength() - 1)
                     {
-                        Console.Write("\t|\t");
+                        Console.Write("\t|");
                     }
                 }
                 Console.WriteLine();
             }
+        }
+        void AddItem(Table table)
+        {
+            string insertValue;
+            List<string> insertList = new List<string>();
+            for (int i = 0; i < table.GetColumnsLength(); i++)
+            {
+                Console.Write(table.TableColumns[i] + ":");
+                insertValue = Console.ReadLine();
+                insertList.Add(insertValue);
+            }
+            table.AddToRepository(insertList);
+        }
+        void RemoveItem(Table table, int chooseKey)
+        {
+            table.RemoveFromTable(chooseKey);
+            Console.WriteLine("Item " + chooseKey + " was removed!");
+        }
+        void SaveTable(Table table)
+        {
+            dataBase.UpdateTable(table);
+            Console.WriteLine("Table is saved!");
         }
         void HandleIndex(ref int chooseKey, int min, int max)
         {
@@ -152,16 +173,21 @@ namespace MyDbVsRi
             }
             if (chooseKey >= max)
             {
-                chooseKey = max - 1;
+                chooseKey = max;
             }
         }
         void PrintOperations()
         {
-            for (int i = 0; i < tableRepository.GetLength(); i++)
+            for (int i = 0; i < operations.Length; i++)
             {
-                Console.Write(i);
+                Console.Write(i + 1);
                 Console.WriteLine(" - " + operations[i] + "\t");
             }
         }
+        //void ManuallyFillEntity()
+        //{
+        //    return Entyt
+        //}
+
     }
 }

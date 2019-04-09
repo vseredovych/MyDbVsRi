@@ -18,6 +18,10 @@ namespace MyDbVsRi
         {
             Tables.Add(table);
         }
+        public void RemoveFromRepository(int index)
+        {
+            Tables.RemoveAt(index);
+        }
         public int GetLength()
         {
             return Tables.Count;

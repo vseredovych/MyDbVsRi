@@ -34,7 +34,6 @@ namespace DAL.Entities
             objects.Add(CurrentSity);
 
             return objects.ToArray();
-
         }
         public override string ToString()
         {
