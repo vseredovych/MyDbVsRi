@@ -55,6 +55,7 @@ namespace MyDbVsRi
                 beforeDatabase = File.ReadLines(FilePath).TakeWhile(x => x != "/START@" + tableName).ToList();
                 afterDatabase = File.ReadLines(FilePath).SkipWhile(x => x != "END@" + tableName + "/").Skip(1).ToList();
 
+
                 beforeDatabase.AddRange(afterDatabase);
                 CreateTable(beforeDatabase);
             }
