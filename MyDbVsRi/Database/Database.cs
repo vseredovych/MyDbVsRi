@@ -8,7 +8,7 @@ using DAL.Entities;
 
 namespace MyDbVsRi
 {
-    public class Database
+    public class Database           //All Db operations
     {
         string FilePath;
         public Database(string filePath)

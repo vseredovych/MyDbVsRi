@@ -34,7 +34,7 @@ namespace MyDbVsRi
             //merchant.FillWithDatabase(merchant, dataBase);
 
         }
-        public void MainMenu()
+        public void MainMenu()                                  //Main operations with menu
         {
             ConsoleKey action;
             int chooseKey = 1;
@@ -96,16 +96,14 @@ namespace MyDbVsRi
                     case ConsoleKey.D4:
                         SaveTable(table);
                         break;
-
                     case ConsoleKey.Escape:
                         break;
                 }
             } while (action != ConsoleKey.Escape);
         }
-
-        void printMainMenu(ref int chooseKey)
+        void printMainMenu(ref int chooseKey) 
         {
-            Console.WriteLine("Tables");
+            Console.WriteLine("Tables");                                  
             HandleIndex(ref chooseKey, 0, tableRepository.GetLength() - 1);
             for (int i = 0; i < tableRepository.GetLength(); i++)
             {
