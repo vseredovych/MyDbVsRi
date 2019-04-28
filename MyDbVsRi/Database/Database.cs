@@ -88,11 +88,8 @@ namespace MyDbVsRi
                     streamWriter.Write(table.TableColumns[i] + "@");
                     for (int j = 0; j < table.TableValuesCount; j++)
                     {
-                        streamWriter.Write(table.TableDictionary[table.TableColumns[i]][j]);
-                        if (j != table.TableValuesCount - 1)
-                        {
-                            streamWriter.Write(",");
-                        }
+                        streamWriter.Write(FillScreeningCharacters(table.TableDictionary[table.TableColumns[i]][j]) );
+                        streamWriter.Write(",");
                     }
                     streamWriter.WriteLine();
                 }
@@ -106,7 +103,7 @@ namespace MyDbVsRi
             table.TableName = tableName;
 
             List<string> allTable = GetDbList(tableName);
-
+            
             string[] columnsValuesArray;
             string[] valuesArray;
 
@@ -116,10 +113,8 @@ namespace MyDbVsRi
                 {
                     columnsValuesArray = line.Split('@').ToArray();
                     table.TableValuesCount = 0;
-                    foreach (string str in columnsValuesArray) ;
-                    {
-                        table.TableColumns.Add(columnsValuesArray[0]);
-                    }
+
+                    table.TableColumns.Add(columnsValuesArray[0]);
                 }
                 return table;
             }
@@ -128,13 +123,12 @@ namespace MyDbVsRi
                 foreach (string line in allTable)
                 {
                     columnsValuesArray = line.Split('@').ToArray();
-                    valuesArray = columnsValuesArray[1].Split(',').ToArray();
+
+                    valuesArray = GetScreeningString(columnsValuesArray[1]);
                     table.TableValuesCount = valuesArray.Length;
-                    foreach (string str in columnsValuesArray) ;
-                    {
-                        table.TableColumns.Add(columnsValuesArray[0]);
-                        table.TableDictionary[columnsValuesArray[0]] = valuesArray.ToList();
-                    }
+
+                    table.TableColumns.Add(columnsValuesArray[0]);
+                    table.TableDictionary[columnsValuesArray[0]] = valuesArray.ToList();
                 }
                 return table;
             }
@@ -159,6 +153,51 @@ namespace MyDbVsRi
                     streamWriter.WriteLine(line);
                 }
             }
+        }
+
+        private string FillScreeningCharacters(string dbString)
+        {
+            if (dbString.Contains(","))
+            {
+                dbString.Replace(",",",,");
+                return dbString;
+            }
+            else
+            {
+                return dbString;
+            }
+        }
+        private string[] GetScreeningString(string dbString) 
+        {
+
+            List<string> dbElements = new List<string>();
+            int lastSeparator = -1;
+
+            for (int i = 0; i < dbString.Length; i++)
+            {
+                if (dbString[i] == ',')
+                {
+                    if ((i + 1 < dbString.Length) && dbString[i + 1] == ',')
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (lastSeparator == -1)
+                        {
+                            dbElements.Add(dbString.Substring(0, i));
+                            lastSeparator = i;
+                        }
+                        else
+                        {
+                            dbElements.Add(dbString.Substring(lastSeparator + 1, i - lastSeparator - 1));
+                            lastSeparator = i;
+                        }
+                    }
+                }
+            }
+
+            return dbElements.ToArray();
         }
     }
 }

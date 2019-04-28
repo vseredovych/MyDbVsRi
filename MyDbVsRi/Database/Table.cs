@@ -31,30 +31,30 @@ namespace MyDbVsRi
                 TableDictionary[str] = new List<string>();
             }
         }
-        public int AddToRepository(Entity entity)
-        {
-            string[] values = entity.ToString().Split(',');
+        //public int AddToRepository(Entity entity)
+        //{
+        //    string[] values = entity.ToString().Split(',');
 
-            if (TableDictionary.Count == 0)
-            {
-                for (int i = 0; i < values.Length; i++)
-                {
-                    TableDictionary[TableColumns[i]] = new List<string>();
-                }
-                TableValuesCount += 1;
-                return 1;
-            }
-            else
-            {
-                values = entity.ToString().Split(',');
-                for (int i = 0; i < values.Length; i++)
-                {
-                    TableDictionary[TableColumns[i]].Add(values[i]);
-                }
-                TableValuesCount += 1;
-                return 1;
-            }
-        }
+        //    if (TableDictionary.Count == 0)
+        //    {
+        //        for (int i = 0; i < values.Length; i++)
+        //        {
+        //            TableDictionary[TableColumns[i]] = new List<string>();
+        //        }
+        //        TableValuesCount += 1;
+        //        return 1;
+        //    }
+        //    else
+        //    {
+        //        values = entity.ToString().Split(',');
+        //        for (int i = 0; i < values.Length; i++)
+        //        {
+        //            TableDictionary[TableColumns[i]].Add(values[i]);
+        //        }
+        //        TableValuesCount += 1;
+        //        return 1;
+        //    }
+        //}
         public int AddToRepository(List<string> insertList)
         {
             if (insertList.Count < this.TableColumns.Count)

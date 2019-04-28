@@ -51,7 +51,6 @@
     <Compile Include="Menu.cs" />
     <Compile Include="TablesRepository\TablesRepository.cs" />
     <Compile Include="TablesRepository\Repository.cs" />
-    <Compile Include="temp\FileRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database\Table.cs" />
